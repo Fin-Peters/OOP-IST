@@ -3,17 +3,22 @@ import re
 
 # Function to check password strength
 def check_password_strength():
+    issues = []
     password = password_entry.get()
     if len(password) < 6:
-        strength_label.config(text="Weak: Too short", fg="red")
-    elif not re.search(r"[A-Z]", password):
-        strength_label.config(text="Weak: Add an uppercase letter", fg="red")
-    elif not re.search(r"[a-z]", password):
-        strength_label.config(text="Weak: Add a lowercase letter", fg="red")
-    elif not re.search(r"[0-9]", password):
-        strength_label.config(text="Weak: Add a number", fg="red")
-    elif not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
-        strength_label.config(text="Medium: Add a special character", fg="orange")
+        issues.append("Too short (minimum 6 characters)")
+    if not re.search(r"[A-Z]", password):
+        issues.append("Add an uppercase letter")
+    if not re.search(r"[a-z]", password):
+        issues.append("Add a lowercase letter")
+    if not re.search(r"[0-9]", password):
+        issues.append("Add a number")
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        issues.append("Add a special character")
+
+    if issues:
+        feedback = "Weak: " + ", ".join(issues)
+        strength_label.config(text=feedback, fg="red")
     else:
         strength_label.config(text="Strong Password", fg="green")
 
