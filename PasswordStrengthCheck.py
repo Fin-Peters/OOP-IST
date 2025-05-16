@@ -17,8 +17,20 @@ def check_password_strength():
         issues.append("Add a special character")
 
     if issues:
-        feedback = "Weak: " + ", ".join(issues)
-        strength_label.config(text=feedback, fg="red")
+        if len(issues) >= 4:
+            strength = "Very Weak"
+            color = "red"
+        elif len(issues) == 3:
+            strength = "Weak"
+            color = "orange"
+        elif len(issues) == 2:
+            strength = "Moderate"
+            color = "gold"
+        elif len(issues) == 1:
+            strength = "Good"
+            color = "blue"
+        feedback = f"{strength}:\n- " + "\n- ".join(issues)
+        strength_label.config(text=feedback, fg=color)
     else:
         strength_label.config(text="Strong Password", fg="green")
 
