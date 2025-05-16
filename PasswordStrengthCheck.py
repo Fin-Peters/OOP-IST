@@ -19,20 +19,56 @@ def check_password_strength():
     if issues:
         if len(issues) >= 4:
             strength = "Very Weak"
-            color = "red"
+            colour = "red"
         elif len(issues) == 3:
             strength = "Weak"
-            color = "orange"
+            colour = "orange"
         elif len(issues) == 2:
             strength = "Moderate"
-            color = "gold"
+            colour = "gold"
         elif len(issues) == 1:
             strength = "Good"
-            color = "blue"
+            colour = "cyan"
         feedback = f"{strength}:\n- " + "\n- ".join(issues)
-        strength_label.config(text=feedback, fg=color)
+        strength_label.config(text=feedback, fg=colour)
+
     else:
         strength_label.config(text="Strong Password", fg="green")
+    crack_time = estimate_crack_time(password)
+    cracking = f"\nEstimated time to crack: {crack_time}"
+    cracktime_label.config(text=cracking, fg= "purple")
+
+def estimate_crack_time(password):
+    # Estimate character set size
+    charset = 0
+    if re.search(r"[a-z]", password):
+        charset += 26
+    if re.search(r"[A-Z]", password):
+        charset += 26
+    if re.search(r"[0-9]", password):
+        charset += 10
+    if re.search(r"[~`!@#$%^&*()-_=+{};:\|',.<>/?]", password):
+        charset += 32  # Approximate number of special chars
+
+    if charset == 0:
+        return "Instantly"
+
+    guesses = charset ** len(password)
+    guesses_per_second = 1e9  # 1 billion guesses per second
+    seconds = guesses / guesses_per_second
+
+    # Convert seconds to human-readable time
+    if seconds < 60:
+        return f"{seconds:.2f} seconds"
+    elif seconds < 3600:
+        return f"{seconds/60:.2f} minutes"
+    elif seconds < 86400:
+        return f"{seconds/3600:.2f} hours"
+    elif seconds < 31536000:
+        return f"{seconds/86400:.2f} days"
+    else:
+        years = seconds / 31536000
+        return f"{years:.2f} years"
 
 # Create the main application window
 app = tk.Tk()
@@ -59,5 +95,8 @@ check_button.pack(pady=10)
 strength_label = tk.Label(app, text="", bg="#2E2E2E", fg="white")
 strength_label.pack(pady=5)
 
+# Add a label to display estimated crack time
+cracktime_label = tk.Label(app, text="", bg="#2E2E2E", fg="white")
+cracktime_label.pack(pady=5)
 # Run the application
 app.mainloop()
