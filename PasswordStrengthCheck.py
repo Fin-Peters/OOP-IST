@@ -31,10 +31,38 @@ class PasswordStrengthApp:
         self.check_button.pack(pady=18, ipadx=8, ipady=2)
 
         # Feedback labels
-        self.strength_label = tk.Label(self.frame, text="", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 11), justify="left")
-        self.strength_label.pack(pady=5)
-        self.cracktime_label = tk.Label(self.frame, bg="#2d323b", fg="#b39ddb", font=("Segoe UI", 10))
-        self.cracktime_label.pack(pady=5)
+        self.strength_label = tk.Label(
+            self.frame,
+            text="",
+            bg="#2d323b",
+            fg="#f5f5f5",
+            font=("Segoe UI", 12),
+            justify="left",
+            anchor="s",
+            wraplength=400
+        )
+        self.strength_label.pack(pady=2, fill="x")
+        self.issues_label = tk.Label(
+            self.frame,
+            text="",
+            bg="#2d323b",
+            fg="#f5f5f5",
+            font=("Segoe UI", 10),
+            justify="left",
+            anchor="s",
+            wraplength=400
+        )
+        self.issues_label.pack(pady=1, fill="x")
+        self.cracktime_label = tk.Label(
+            self.frame,
+            bg="#2d323b",
+            fg="#b39ddb",
+            font=("Segoe UI", 10),
+            wraplength=400,
+            anchor="s",
+            justify="left"
+        )
+        self.cracktime_label.pack(pady=2, fill="x")
 
     def toggle_password(self):
         self.show_password = not self.show_password
@@ -78,13 +106,17 @@ class PasswordStrengthApp:
             elif len(issues) == 1:
                 strength = "Good"
                 colour = "#64b5f6"
-            feedback = f"{strength}:\n- " + "\n- ".join(issues)
+            feedback = f"{strength}:"  # Only strength in this label
             self.strength_label.config(text=feedback, fg=colour)
+            # Show issues in a separate label below
+            issues_text = "\n- " + "\n- ".join(issues)
+            self.issues_label.config(text=issues_text, fg=colour)
         else:
             self.strength_label.config(text="Strong Password", fg="#81c784")
+            self.issues_label.config(text="")
 
         crack_time = self.estimate_crack_time(password)
-        cracking = f"\nEstimated time to crack: {crack_time}"
+        cracking = f"Estimated time to crack: {crack_time}"
         self.cracktime_label.config(text=cracking, fg="#b39ddb")
 
     def estimate_crack_time(self, password):
