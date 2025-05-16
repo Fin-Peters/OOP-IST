@@ -91,6 +91,8 @@ class PasswordStrengthApp:
             issues.append("Add a number")
         if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
             issues.append("Add a special character")
+        if password == "Byenj@m1n":
+            issues.append("Password is a basic ass bitch")
 
         # shows password strength depending on the number of issues
         if issues:
