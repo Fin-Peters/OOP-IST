@@ -14,6 +14,8 @@ class PasswordStrengthChecker:
         issues = []
         if len(password) == 0:
             return "Password cannot be empty", ["Password cannot be empty"]
+        if password in weakPW:
+            return "Password is too common", ["Password is not secure, too common"]
         if len(password) < 6:
             issues.append("Too short (minimum 6 characters)")
         if not re.search(r"[A-Z]", password):
@@ -26,8 +28,7 @@ class PasswordStrengthChecker:
             issues.append("Add a special character")
         if password == "Byenj@m1n":
             issues.append("Password is a basic ass bitch")
-        if password in weakPW:
-            issues.append("Youza Basic Bitch")
+        
 
         if issues:
             if len(issues) >= 4:
@@ -99,12 +100,12 @@ class PasswordStrengthApp:
         self.check_button.pack(pady=18, ipadx=8, ipady=2)
 
     def setup_feedback_labels(self):
-        self.strength_label = tk.Label(self.frame, text="", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 12), justify="left", anchor="w", wraplength=400)
-        self.strength_label.pack(pady=2, fill="x")
-        self.issues_label = tk.Label(self.frame, text="", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 10), justify="left", anchor="w", wraplength=400)
-        self.issues_label.pack(pady=1, fill="x")
-        self.cracktime_label = tk.Label(self.frame, bg="#2d323b", fg="#b39ddb", font=("Segoe UI", 10), wraplength=400, anchor="w", justify="left")
-        self.cracktime_label.pack(pady=2, fill="x")
+        self.strength_label = tk.Label(self.frame, text="", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 12), justify="left", anchor="s", wraplength=400)
+        self.strength_label.pack(pady=(0,0), fill="x")
+        self.issues_label = tk.Label(self.frame, text="", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 10), justify="left", anchor="s", wraplength=400)
+        self.issues_label.pack(pady=(0,0), fill="x")
+        self.cracktime_label = tk.Label(self.frame, bg="#2d323b", fg="#b39ddb", font=("Segoe UI", 10), wraplength=400, anchor="s", justify="left")
+        self.cracktime_label.pack(pady=1, fill="x")
 
     def toggle_password(self):
         self.show_password = not self.show_password
@@ -125,7 +126,10 @@ class PasswordStrengthApp:
             "Moderate": "#fff176",
             "Good": "#64b5f6",
             "Strong Password": "#81c784",
-            "Password cannot be empty": "#e57373"
+            "Password cannot be empty"  : "#e57373",
+            "Password is too common" : "#e57373",
+            "Password is a basic ass bitch" : "#e57373"
+        
         }
         colour = color_map.get(strength, "#f5f5f5")
         self.strength_label.config(text=f"{strength}:", fg=colour)
