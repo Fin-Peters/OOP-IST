@@ -1,14 +1,12 @@
 import tkinter as tk
 import re
+import Easter
 
 # Load common passwords from file
 with open("passwordList.txt", "r", encoding="utf-8") as f:
     weakPW = set(line.strip() for line in f if line.strip())
 
 class PasswordStrengthChecker:
-    def __init__(self):
-        # You can add config here if needed
-        pass
 
     def check_strength(self, password):
         issues = []
