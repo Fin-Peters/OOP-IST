@@ -83,6 +83,7 @@ class PasswordStrengthApp:
         self.frame.pack(padx=30, pady=30, fill="both", expand=True)
         self.setup_password_entry()
         self.setup_feedback_labels()
+        self.setup_dev_button()
 
     def setup_password_entry(self):
         self.password_label = tk.Label(self.frame, text="Password:", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 12))
@@ -140,9 +141,34 @@ class PasswordStrengthApp:
         cracking = f"Estimated time to crack: {crack_time}"
         self.cracktime_label.config(text=cracking, fg="#b39ddb")
 
-class DevPage:
-    def __init__(self):
+    def open_dev_page(self):
+        dev_window = tk.Toplevel(self.root)
+        dev_window.title("Developer Page")
+        dev_window.geometry("300x200")  # Bottom left (x=0, y=600)
+        dev_window.configure(bg="#23272f")
+        label = tk.Label(dev_window, text="Developer Tools", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
+        label.pack(pady=20)
+        # You can add more widgets to the dev window here
 
+    def setup_dev_button(self):
+        self.dev_button = tk.Button(self.root, text="Dev Page", command=self.open_dev_page, bg="#bdbdbd", fg="#23272f", font=("Segoe UI", 9), relief="flat")
+        self.dev_button.place(x=10, y=self.root.winfo_height()-40, anchor="sw")
+        self.root.after(100, self.update_dev_button_position)
+
+    def update_dev_button_position(self):
+        self.dev_button.place(x=10, y=self.root.winfo_height()-10, anchor="sw")
+        self.root.after(100, self.update_dev_button_position)
+
+class DevPage:
+    def __init__(self, master):
+        self.window = tk.Toplevel(master)
+        self.window.title("Developer Page")
+        self.window.geometry("300x200+0+600")
+        self.window.configure(bg="#23272f")
+        label = tk.Label(self.window, text="Developer Tools", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
+        label.pack(pady=20)
+        # Add more widgets as needed
+        
 
 
 
