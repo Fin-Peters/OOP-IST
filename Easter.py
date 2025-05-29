@@ -1,3 +1,5 @@
 #some easter eggs Just For Fun
 
-def 
+def EA():
+    
+    pass

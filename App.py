@@ -117,8 +117,8 @@ class PasswordStrengthApp:
     def check_password_strength(self):
         password = self.password_entry.get()
         strength, issues = self.checker.check_strength(password)
-        # Color logic
-        color_map = {
+        # Colour logic
+        colour_map = {
             "Very Weak": "#e57373",
             "Weak": "#ffb74d",
             "Moderate": "#fff176",
@@ -129,7 +129,7 @@ class PasswordStrengthApp:
             "Password is a basic ass bitch" : "#e57373"
         
         }
-        colour = color_map.get(strength, "#f5f5f5")
+        colour = colour_map.get(strength, "#f5f5f5")
         self.strength_label.config(text=f"{strength}:", fg=colour)
         if issues and strength != "Strong Password":
             issues_text = "\n- " + "\n- ".join(issues)
@@ -139,6 +139,12 @@ class PasswordStrengthApp:
         crack_time = self.checker.estimate_crack_time(password)
         cracking = f"Estimated time to crack: {crack_time}"
         self.cracktime_label.config(text=cracking, fg="#b39ddb")
+
+class DevPage:
+    def __init__(self):
+
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()
