@@ -76,6 +76,7 @@ class PasswordStrengthApp:
         self.root.geometry("500x400")
         self.root.resizable(False, False)
         self.checker = PasswordStrengthChecker()
+        self.dev_window = None  # Track dev window
         self.setup_ui()
 
     def setup_ui(self):
@@ -142,13 +143,21 @@ class PasswordStrengthApp:
         self.cracktime_label.config(text=cracking, fg="#b39ddb")
 
     def open_dev_page(self):
-        dev_window = tk.Toplevel(self.root)
-        dev_window.title("Developer Page")
-        dev_window.geometry("300x200")  # Bottom left (x=0, y=600)
-        dev_window.configure(bg="#23272f")
-        label = tk.Label(dev_window, text="Developer Tools", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
+        if self.dev_window is not None and tk.Toplevel.winfo_exists(self.dev_window):
+            self.dev_window.lift()  # Bring to front if already open
+            return
+        self.dev_window = tk.Toplevel(self.root)
+        self.dev_window.title("Developer Page")
+        self.dev_window.geometry("300x200")
+        self.dev_window.configure(bg="#23272f")
+        label = tk.Label(self.dev_window, text="Developer Tools", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
         label.pack(pady=20)
-        # You can add more widgets to the dev window here
+        self.dev_window.protocol("WM_DELETE_WINDOW", self.close_dev_window)
+
+    def close_dev_window(self):
+        if self.dev_window is not None:
+            self.dev_window.destroy()
+            self.dev_window = None
 
     def setup_dev_button(self):
         self.dev_button = tk.Button(self.root, text="Dev Page", command=self.open_dev_page, bg="#bdbdbd", fg="#23272f", font=("Segoe UI", 9), relief="flat")
@@ -157,18 +166,7 @@ class PasswordStrengthApp:
 
     def update_dev_button_position(self):
         self.dev_button.place(x=10, y=self.root.winfo_height()-10, anchor="sw")
-        self.root.after(100, self.update_dev_button_position)
-
-class DevPage:
-    def __init__(self, master):
-        self.window = tk.Toplevel(master)
-        self.window.title("Developer Page")
-        self.window.geometry("300x200+0+600")
-        self.window.configure(bg="#23272f")
-        label = tk.Label(self.window, text="Developer Tools", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
-        label.pack(pady=20)
-        # Add more widgets as needed
-        
+        self.root.after(100, self.update_dev_button_position)        
 
 
 
