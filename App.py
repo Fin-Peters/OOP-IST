@@ -96,8 +96,13 @@ class PasswordStrengthApp:
         self.show_password = False
         self.toggle_btn = tk.Button(pw_entry_frame, text="Show", command=self.toggle_password, font=("Segoe UI", 10), bg="#bdbdbd", fg="#23272f", relief="flat", padx=8)
         self.toggle_btn.pack(side="left", padx=(8,0))
-        self.check_button = tk.Button(self.frame, text="Check Strength", bg="#81c784", fg="#23272f", font=("Segoe UI", 11, "bold"), command=self.check_password_strength, activebackground="#66bb6a")
-        self.check_button.pack(pady=18, ipadx=8, ipady=2)
+        # Place Check and Copy buttons side by side
+        button_frame = tk.Frame(self.frame, bg="#2d323b")
+        button_frame.pack(pady=10)
+        self.check_button = tk.Button(button_frame, text="Check Strength", bg="#81c784", fg="#23272f", font=("Segoe UI", 11, "bold"), command=self.check_password_strength, activebackground="#66bb6a")
+        self.check_button.pack(side="left", ipadx=8, ipady=2, padx=(0, 8))
+        self.copy_password_button = tk.Button(button_frame, text="Copy Password", bg="#64b5f6", fg="#23272f", font=("Segoe UI", 11, "bold"), command=self.copy_password, activebackground="#42a5f5")
+        self.copy_password_button.pack(side="left", ipadx=8, ipady=2)
 
     def setup_feedback_labels(self):
         self.strength_label = tk.Label(self.frame, text="", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 12), justify="left", anchor="s", wraplength=400)
@@ -141,6 +146,12 @@ class PasswordStrengthApp:
         crack_time = self.checker.estimate_crack_time(password)
         cracking = f"Estimated time to crack: {crack_time}"
         self.cracktime_label.config(text=cracking, fg="#b39ddb")
+
+    def copy_password(self):
+        password = self.password_entry.get()
+        root.clipboard_clear()
+        root.clipboard_append(password)
+        
 
     def open_dev_page(self):
         if self.dev_window is not None and tk.Toplevel.winfo_exists(self.dev_window):
