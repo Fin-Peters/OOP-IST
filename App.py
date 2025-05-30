@@ -151,7 +151,6 @@ class PasswordStrengthApp:
         password = self.password_entry.get()
         root.clipboard_clear()
         root.clipboard_append(password)
-        
 
     def open_dev_page(self):
         if self.dev_window is not None and tk.Toplevel.winfo_exists(self.dev_window):
@@ -159,10 +158,15 @@ class PasswordStrengthApp:
             return
         self.dev_window = tk.Toplevel(self.root)
         self.dev_window.title("Developer Page")
-        self.dev_window.geometry("300x200")
+        self.dev_window.geometry("300x400")
+        self.dev_window.resizable(False, False)
         self.dev_window.configure(bg="#23272f")
-        label = tk.Label(self.dev_window, text="Developer Tools", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
+        label = tk.Label(self.dev_window, text="Developer Page", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
         label.pack(pady=20)
+        body_text = tk.Text(self.dev_window, bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 10), wrap="word", padx=10, pady=10)
+        body_text.insert(tk.END, "Thank you for using the Password Strength Checker!")
+        body_text.config(state="disabled")
+        body_text.pack(fill="both", expand=True, padx=10, pady=10)
         self.dev_window.protocol("WM_DELETE_WINDOW", self.close_dev_window)
 
     def close_dev_window(self):
