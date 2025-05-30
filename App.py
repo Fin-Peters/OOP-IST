@@ -100,6 +100,12 @@ class PasswordStrengthApp:
         self.show_password = False
         self.toggle_btn = tk.Button(pw_entry_frame, text="Show", command=self.toggle_password, font=("Segoe UI", 10), bg="#bdbdbd", fg="#23272f", relief="flat", padx=8)
         self.toggle_btn.pack(side="left", padx=(8,0))
+        # Add Spinbox for password length
+        self.length_label = tk.Label(pw_entry_frame, text="Length:", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 10))
+        self.length_label.pack(side="left", padx=(12,0))
+        self.length_var = tk.IntVar(value=12)
+        self.length_spinbox = tk.Spinbox(pw_entry_frame, from_=8, to=32, width=3, textvariable=self.length_var, font=("Segoe UI", 10))
+        self.length_spinbox.pack(side="left", padx=(2,0))
         # Place Check, Copy, and Generate buttons side by side
         button_frame = tk.Frame(self.frame, bg="#2d323b")
         button_frame.pack(pady=10)
@@ -187,7 +193,7 @@ class PasswordStrengthApp:
         self.dev_button.place(x=10, y=self.root.winfo_height()-10, anchor="sw")
         self.root.after(100, self.update_dev_button_position)
 
-    def generate_strong_password(self, length=12):
+    def generate_strong_password(self, length):
         chars = string.ascii_letters + string.digits + '!@#$%^&*'
         while True:
             password = ''.join(random.choice(chars) for _ in range(length))
@@ -199,7 +205,8 @@ class PasswordStrengthApp:
                 return password
 
     def fill_generated_password(self):
-        password = self.generate_strong_password()
+        length = self.length_var.get()
+        password = self.generate_strong_password(length)
         self.password_entry.delete(0, tk.END)
         self.password_entry.insert(0, password)
 
