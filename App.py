@@ -1,6 +1,8 @@
 import tkinter as tk
 import re
 import Easter
+import random
+import string
 
 # Load common passwords from file
 with open("passwordList.txt", "r", encoding="utf-8") as f:
@@ -98,13 +100,15 @@ class PasswordStrengthApp:
         self.show_password = False
         self.toggle_btn = tk.Button(pw_entry_frame, text="Show", command=self.toggle_password, font=("Segoe UI", 10), bg="#bdbdbd", fg="#23272f", relief="flat", padx=8)
         self.toggle_btn.pack(side="left", padx=(8,0))
-        # Place Check and Copy buttons side by side
+        # Place Check, Copy, and Generate buttons side by side
         button_frame = tk.Frame(self.frame, bg="#2d323b")
         button_frame.pack(pady=10)
         self.check_button = tk.Button(button_frame, text="Check Strength", bg="#81c784", fg="#23272f", font=("Segoe UI", 11, "bold"), command=self.check_password_strength, activebackground="#66bb6a")
         self.check_button.pack(side="left", ipadx=8, ipady=2, padx=(0, 8))
         self.copy_password_button = tk.Button(button_frame, text="Copy Password", bg="#64b5f6", fg="#23272f", font=("Segoe UI", 11, "bold"), command=self.copy_password, activebackground="#42a5f5")
-        self.copy_password_button.pack(side="left", ipadx=8, ipady=2)
+        self.copy_password_button.pack(side="left", ipadx=8, ipady=2, padx=(0, 8))
+        self.generate_password_button = tk.Button(button_frame, text="Generate Password", bg="#ffd54f", fg="#23272f", font=("Segoe UI", 11, "bold"), command=self.fill_generated_password, activebackground="#ffb300")
+        self.generate_password_button.pack(side="left", ipadx=8, ipady=2)
 
     def setup_feedback_labels(self):
         self.strength_label = tk.Label(self.frame, text="", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 12), justify="left", anchor="s", wraplength=400)
@@ -181,7 +185,23 @@ class PasswordStrengthApp:
 
     def update_dev_button_position(self):
         self.dev_button.place(x=10, y=self.root.winfo_height()-10, anchor="sw")
-        self.root.after(100, self.update_dev_button_position)        
+        self.root.after(100, self.update_dev_button_position)
+
+    def generate_strong_password(self, length=12):
+        chars = string.ascii_letters + string.digits + '!@#$%^&*'
+        while True:
+            password = ''.join(random.choice(chars) for _ in range(length))
+            # Ensure at least one of each type
+            if (any(c.islower() for c in password) and
+                any(c.isupper() for c in password) and
+                any(c.isdigit() for c in password) and
+                any(c in '!@#$%^&*' for c in password)):
+                return password
+
+    def fill_generated_password(self):
+        password = self.generate_strong_password()
+        self.password_entry.delete(0, tk.END)
+        self.password_entry.insert(0, password)
 
 
 
