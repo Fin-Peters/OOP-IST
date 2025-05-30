@@ -10,22 +10,24 @@ class PasswordStrengthChecker:
 
     def check_strength(self, password):
         issues = []
+        if password == "Byenj@m1n":
+            return"Spesch", ["Password is a basic ass bitch"]
         if len(password) == 0:
-            return "Password cannot be empty", ["Password cannot be empty"]
+            return "Other", ["Password cannot be empty"]
         if password in weakPW:
-            return "Password is too common", ["Password is not secure, too common"]
+            return "Other", ["Password is not secure, too common"]
         if len(password) < 6:
             issues.append("Too short (minimum 6 characters)")
+        if re.search(r"[(),.?\:{}|<>]", password):
+            return "Other", ["Password cannot contain special characters like (),.?\":{}|<>"]
         if not re.search(r"[A-Z]", password):
             issues.append("Add an uppercase letter")
         if not re.search(r"[a-z]", password):
             issues.append("Add a lowercase letter")
         if not re.search(r"[0-9]", password):
             issues.append("Add a number")
-        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        if not re.search(r"[!@#$%^&*]", password):
             issues.append("Add a special character")
-        if password == "Byenj@m1n":
-            issues.append("Password is a basic ass bitch")
         
 
         if issues:
@@ -49,8 +51,8 @@ class PasswordStrengthChecker:
             charset += 26
         if re.search(r"[0-9]", password):
             charset += 10
-        if re.search(r"[~`!@#$%^&*()-_=+{};:\\|',.<>/?]", password):
-            charset += 32  
+        if re.search(r"[~`!@#$%^&*]", password):
+            charset += 10 
         if charset == 0:
             return "Instantly"
         guesses = charset ** len(password)
@@ -76,7 +78,7 @@ class PasswordStrengthApp:
         self.root.geometry("500x400")
         self.root.resizable(False, False)
         self.checker = PasswordStrengthChecker()
-        self.dev_window = None  # Track dev window
+        self.dev_window = None  
         self.setup_ui()
 
     def setup_ui(self):
@@ -131,10 +133,8 @@ class PasswordStrengthApp:
             "Moderate": "#fff176",
             "Good": "#64b5f6",
             "Strong Password": "#81c784",
-            "Password cannot be empty"  : "#e57373",
-            "Password is too common" : "#e57373",
-            "Password is a basic ass bitch" : "#e57373"
-        
+            "Spesch": "#aa6ff7",
+            "Other": "#e57373"
         }
         colour = colour_map.get(strength, "#f5f5f5")
         self.strength_label.config(text=f"{strength}:", fg=colour)
