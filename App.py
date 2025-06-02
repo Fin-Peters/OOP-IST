@@ -12,6 +12,8 @@ class PasswordStrengthChecker:
 
     def check_strength(self, password):
         issues = []
+        if re.search(r"[ ]", password):
+            return "Other", ["Password cannot contain spaces"]
         if password == "Byenj@m1n":
             return"Spesch", ["Password is a basic ass bitch"]
         if len(password) == 0:
@@ -174,7 +176,9 @@ class PasswordStrengthApp:
         label = tk.Label(self.dev_window, text="Developer Page", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
         label.pack(pady=20)
         body_text = tk.Text(self.dev_window, bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 10), wrap="word", padx=10, pady=10)
-        body_text.insert(tk.END, "Thank you for using the Password Strength Checker!")
+        body_text.insert(tk.END, "Made by Bitrealm Studios \n\n" 
+        "Thank you for using the Password Strength Checker!" 
+        "\n\n Made with hatred for Tkinter XOXO.")
         body_text.config(state="disabled")
         body_text.pack(fill="both", expand=True, padx=10, pady=10)
         self.dev_window.protocol("WM_DELETE_WINDOW", self.close_dev_window)
