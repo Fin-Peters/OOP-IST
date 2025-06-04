@@ -12,6 +12,9 @@ class PasswordStrengthChecker:
 
     def check_strength(self, password):
         issues = []
+        if password == "fong":
+            webbrowser.open("https://cornhub.website")
+            return "Welcome Back", ["opening most used webpage"]
         if re.search(r"[ ]", password):
             return "Other", ["Password cannot contain spaces"]
         if password == "Byenj@m1n":
@@ -92,7 +95,7 @@ class PasswordStrengthApp:
         self.setup_password_entry()
         self.setup_feedback_labels()
         self.setup_dev_button()
-
+    
     def setup_password_entry(self):
         self.password_label = tk.Label(self.frame, text="Password:", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 12))
         self.password_label.pack(pady=(30, 8))
@@ -118,7 +121,7 @@ class PasswordStrengthApp:
         self.copy_password_button.pack(side="left", ipadx=8, ipady=2, padx=(0, 8))
         self.generate_password_button = tk.Button(button_frame, text="Generate Password", bg="#ffd54f", fg="#23272f", font=("Segoe UI", 11, "bold"), command=self.fill_generated_password, activebackground="#ffb300")
         self.generate_password_button.pack(side="left", ipadx=8, ipady=2)
-
+        
     def setup_feedback_labels(self):
         self.strength_label = tk.Label(self.frame, text="", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 12), justify="left", anchor="s", wraplength=400)
         self.strength_label.pack(pady=(0,0), fill="x")
@@ -138,10 +141,7 @@ class PasswordStrengthApp:
 
     def check_password_strength(self):
         password = self.password_entry.get()
-        # Easter egg trigger
-        if password.lower() == "rickroll":
-            self.easter_egg()
-            return
+        
         strength, issues = self.checker.check_strength(password)
         # Colour logic
         colour_map = {
@@ -151,7 +151,8 @@ class PasswordStrengthApp:
             "Good": "#64b5f6",
             "Strong Password": "#81c784",
             "Spesch": "#aa6ff7",
-            "Other": "#e57373"
+            "Other": "#e57373",
+            "Welcome Back": "#81c784"
         }
         colour = colour_map.get(strength, "#f5f5f5")
         self.strength_label.config(text=f"{strength}:", fg=colour)
@@ -220,11 +221,11 @@ class PasswordStrengthApp:
         self.password_entry.insert(0, password)
 
     def setup_easter_egg(self):
-        self.root.bind("<w>", self.easter_egg)
+        self.root.bind("<Control-q>", self.easter_egg)
 
     def easter_egg(self, event=None):
         # Trigger the easter egg functionality\
-        webbrowser.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        webbrowser.open("https://cornhub.website")
 
 if __name__ == "__main__":
     root = tk.Tk()
