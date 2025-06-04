@@ -1,6 +1,6 @@
 import tkinter as tk
+import webbrowser 
 import re
-import Easter
 import random
 import string
 
@@ -84,6 +84,7 @@ class PasswordStrengthApp:
         self.checker = PasswordStrengthChecker()
         self.dev_window = None  
         self.setup_ui()
+        self.setup_easter_egg()
 
     def setup_ui(self):
         self.frame = tk.Frame(self.root, bg="#2d323b", bd=2, relief="groove")
@@ -137,6 +138,10 @@ class PasswordStrengthApp:
 
     def check_password_strength(self):
         password = self.password_entry.get()
+        # Easter egg trigger
+        if password.lower() == "rickroll":
+            self.easter_egg()
+            return
         strength, issues = self.checker.check_strength(password)
         # Colour logic
         colour_map = {
@@ -214,7 +219,12 @@ class PasswordStrengthApp:
         self.password_entry.delete(0, tk.END)
         self.password_entry.insert(0, password)
 
+    def setup_easter_egg(self):
+        self.root.bind("<w>", self.easter_egg)
 
+    def easter_egg(self, event=None):
+        # Trigger the easter egg functionality\
+        webbrowser.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
 if __name__ == "__main__":
     root = tk.Tk()
