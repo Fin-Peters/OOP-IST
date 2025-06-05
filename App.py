@@ -12,7 +12,13 @@ class PasswordStrengthChecker:
 
     def check_strength(self, password):
         issues = []
-        if password == "fong":
+        if password.lower().strip() == "bean":
+            webbrowser.open("https://moxfield.com")
+            return "Welcome Back", ["opening most used webpage"]
+        if password.lower().strip() == "gremlin":
+            webbrowser.open("https://www.fbi.gov/how-we-can-help-you/scams-and-safety/sex-offender-registry")
+            return "Welcome Back", ["opening most used webpage"]
+        if password.lower().strip() == "fong":
             webbrowser.open("https://cornhub.website")
             return "Welcome Back", ["opening most used webpage"]
         if re.search(r"[ ]", password):
@@ -221,11 +227,11 @@ class PasswordStrengthApp:
         self.password_entry.insert(0, password)
 
     def setup_easter_egg(self):
-        self.root.bind("<Control-q>", self.easter_egg)
+        self.root.bind("<Ctrl-p>", self.easter_egg)
 
     def easter_egg(self, event=None):
         # Trigger the easter egg functionality\
-        webbrowser.open("https://cornhub.website")
+        webbrowser.open("https://youtu.be/iuUnjfimDlU")
 
 if __name__ == "__main__":
     root = tk.Tk()
