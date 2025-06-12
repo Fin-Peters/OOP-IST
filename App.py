@@ -227,7 +227,7 @@ class PasswordStrengthApp:
         self.password_entry.insert(0, password)
 
     def setup_easter_egg(self):
-        self.root.bind("<Ctrl-p>", self.easter_egg)
+        self.root.bind("<Control-p>", self.easter_egg)
 
     def easter_egg(self, event=None):
         # Trigger the easter egg functionality\
