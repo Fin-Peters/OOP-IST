@@ -12,6 +12,9 @@ class PasswordStrengthChecker:
 
     def check_strength(self, password):
         issues = []
+        if password.lower().strip() == "ppshower":
+            ppier = True
+            return "Spesch", ["something happened"], ppier
         if password.lower().strip() == "bean":
             webbrowser.open("https://moxfield.com")
             return "Welcome Back", ["opening most used webpage"]
@@ -92,8 +95,10 @@ class PasswordStrengthApp:
         self.root.resizable(False, False)
         self.checker = PasswordStrengthChecker()
         self.dev_window = None  
+        self.eas_window = None
+        self.ppier = False  # Track ppier state
         self.setup_ui()
-        self.setup_easter_egg()
+        
 
     def setup_ui(self):
         self.frame = tk.Frame(self.root, bg="#2d323b", bd=2, relief="groove")
@@ -101,7 +106,9 @@ class PasswordStrengthApp:
         self.setup_password_entry()
         self.setup_feedback_labels()
         self.setup_dev_button()
-    
+        self.setup_easter_button()
+        self.setup_easter_egg()
+
     def setup_password_entry(self):
         self.password_label = tk.Label(self.frame, text="Password:", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 12))
         self.password_label.pack(pady=(30, 8))
@@ -127,7 +134,7 @@ class PasswordStrengthApp:
         self.copy_password_button.pack(side="left", ipadx=8, ipady=2, padx=(0, 8))
         self.generate_password_button = tk.Button(button_frame, text="Generate Password", bg="#ffd54f", fg="#23272f", font=("Segoe UI", 11, "bold"), command=self.fill_generated_password, activebackground="#ffb300")
         self.generate_password_button.pack(side="left", ipadx=8, ipady=2)
-        
+    
     def setup_feedback_labels(self):
         self.strength_label = tk.Label(self.frame, text="", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 12), justify="left", anchor="s", wraplength=400)
         self.strength_label.pack(pady=(0,0), fill="x")
@@ -135,7 +142,7 @@ class PasswordStrengthApp:
         self.issues_label.pack(pady=(0,0), fill="x")
         self.cracktime_label = tk.Label(self.frame, bg="#2d323b", fg="#b39ddb", font=("Segoe UI", 10), wraplength=400, anchor="s", justify="left")
         self.cracktime_label.pack(pady=1, fill="x")
-
+    
     def toggle_password(self):
         self.show_password = not self.show_password
         if self.show_password:
@@ -147,8 +154,14 @@ class PasswordStrengthApp:
 
     def check_password_strength(self):
         password = self.password_entry.get()
-        
-        strength, issues = self.checker.check_strength(password)
+        # Try to get ppier from checker, default to False if not returned
+        result = self.checker.check_strength(password)
+        if len(result) == 3:
+            strength, issues, ppier = result
+        else:
+            strength, issues = result
+            ppier = False
+        self.ppier = ppier
         # Colour logic
         colour_map = {
             "Very Weak": "#e57373",
@@ -170,7 +183,8 @@ class PasswordStrengthApp:
         crack_time = self.checker.estimate_crack_time(password)
         cracking = f"Estimated time to crack: {crack_time}"
         self.cracktime_label.config(text=cracking, fg="#b39ddb")
-
+        # After checking, update the easter button
+        self.setup_easter_button()
     def copy_password(self):
         password = self.password_entry.get()
         root.clipboard_clear()
@@ -226,12 +240,41 @@ class PasswordStrengthApp:
         self.password_entry.delete(0, tk.END)
         self.password_entry.insert(0, password)
 
-    def setup_easter_egg(self):
-        self.root.bind("<Control-p>", self.easter_egg)
+    def close_easter_window(self):
+        if self.eas_window is not None:
+            self.eas_window.destroy()
+            self.eas_window = None
 
-    def easter_egg(self, event=None):
-        # Trigger the easter egg functionality\
-        webbrowser.open("https://youtu.be/iuUnjfimDlU")
+    def setup_easter_button(self):
+        # Remove existing easter button if it exists
+        if hasattr(self, 'easter_button') and self.easter_button:
+            self.easter_button.destroy()
+            self.easter_button = None
+        if self.ppier:
+            self.easter_button = tk.Button(self.root, text="Easter Egg", command=self.open_easter_page, bg="#bdbdbd", fg="#23272f", font=("Segoe UI", 9), relief="flat")
+            self.easter_button.place(x=10, y=self.root.winfo_height()-70, anchor="sw")
+
+    def open_easter_page(self):
+        if self.eas_window is not None and tk.Toplevel.winfo_exists(self.eas_window):
+            self.eas_window.lift()  # Bring to front if already open
+            return
+        self.eas_window = tk.Toplevel(self.root)
+        self.eas_window.title("Easter Egg")
+        self.eas_window.geometry("300x400")
+        self.eas_window.resizable(False, False)
+        self.eas_window.configure(bg="#23272f")
+        label = tk.Label(self.eas_window, text="Easter Egg", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
+        label.pack(pady=20)
+        body_text = tk.Text(self.eas_window, bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 10), wrap="word", padx=10, pady=10)
+        body_text.insert(tk.END, "Made by Bitrealm Studios \n\n" 
+        "Thank you for using the Password Strength Checker!" 
+        "\n\n Made with hatred for Tkinter XOXO.")
+        body_text.config(state="disabled")
+        body_text.pack(fill="both", expand=True, padx=10, pady=10)
+        self.eas_window.protocol("WM_DELETE_WINDOW", self.close_easter_window)
+
+    def setup_easter_egg(self):
+        self.root.bind("<Control-p>", lambda event: webbrowser.open("https://youtu.be/iuUnjfimDlU"))
 
 if __name__ == "__main__":
     root = tk.Tk()
