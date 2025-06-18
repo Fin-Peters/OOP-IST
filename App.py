@@ -14,7 +14,7 @@ class PasswordStrengthChecker:
         issues = []
         if password.lower().strip() == "meinkampf":
             webbrowser.open("https://youtu.be/iuUnjfimDlU"),
-            return "welcome back", ["opening most used webpage"]
+            return "welcome back", ["this just works"]
         if password.lower().strip() == "ppshower":
             ppier = True
             return "Spesch", ["something happened"], ppier
@@ -206,7 +206,8 @@ class PasswordStrengthApp:
         body_text = tk.Text(self.dev_window, bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 10), wrap="word", padx=10, pady=10)
         body_text.insert(tk.END, "Made by Bitrealm Studios \n\n" 
         "Thank you for using the Password Strength Checker!" 
-        "\n\n Made with hatred for Tkinter XOXO.")
+        "\n\nMade with hatred for Tkinter XOXO."
+        "\n\nContact me at fpeters@student.saintaug.nsw.edu.au \n")
         body_text.config(state="disabled")
         body_text.pack(fill="both", expand=True, padx=10, pady=10)
         self.dev_window.protocol("WM_DELETE_WINDOW", self.close_dev_window)
