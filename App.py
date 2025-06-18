@@ -36,7 +36,7 @@ class PasswordStrengthChecker:
         if password in weakPW:
             return "Other", ["Password is not secure, too common"]
         if len(password) < 6:
-            issues.append("Too short (minimum 6 characters)")
+            return "Other", ["Too short (minimum 6 characters)"]
         if re.search(r"[(),.?\:{}|<>]", password):
             return "Other", ["Password cannot contain special characters like (),.?\":{}|<>"]
         if not re.search(r"[A-Z]", password):
