@@ -12,6 +12,9 @@ class PasswordStrengthChecker:
 
     def check_strength(self, password):
         issues = []
+        if password.lower().strip() == "meinkampf":
+            webbrowser.open("https://youtu.be/iuUnjfimDlU"),
+            return "welcome back", ["opening most used webpage"]
         if password.lower().strip() == "ppshower":
             ppier = True
             return "Spesch", ["something happened"], ppier
@@ -107,7 +110,6 @@ class PasswordStrengthApp:
         self.setup_feedback_labels()
         self.setup_dev_button()
         self.setup_easter_button()
-        self.setup_easter_egg()
 
     def setup_password_entry(self):
         self.password_label = tk.Label(self.frame, text="Password:", bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 12))
@@ -266,15 +268,13 @@ class PasswordStrengthApp:
         label = tk.Label(self.eas_window, text="Easter Egg", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
         label.pack(pady=20)
         body_text = tk.Text(self.eas_window, bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 10), wrap="word", padx=10, pady=10)
-        body_text.insert(tk.END, "Made by Bitrealm Studios \n\n" 
+        body_text.insert(tk.END, "Easter egg codes and  \n\n" 
         "Thank you for using the Password Strength Checker!" 
         "\n\n Made with hatred for Tkinter XOXO.")
         body_text.config(state="disabled")
         body_text.pack(fill="both", expand=True, padx=10, pady=10)
         self.eas_window.protocol("WM_DELETE_WINDOW", self.close_easter_window)
 
-    def setup_easter_egg(self):
-        self.root.bind("<Control-p>", lambda event: webbrowser.open("https://youtu.be/iuUnjfimDlU"))
 
 if __name__ == "__main__":
     root = tk.Tk()
