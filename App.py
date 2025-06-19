@@ -37,7 +37,7 @@ class PasswordStrengthChecker:
             return "Other", ["Password is not secure, too common"]
         if len(password) < 6:
             return "Other", ["Too short (minimum 6 characters)"]
-        if re.search(r"[(),.?\:{}|<>]", password):
+        if re.search(r"[(),.?\":{}|<>]", password):
             return "Other", ["Password cannot contain special characters like (),.?\":{}|<>"]
         if not re.search(r"[A-Z]", password):
             issues.append("Add an uppercase letter")
@@ -187,6 +187,7 @@ class PasswordStrengthApp:
         self.cracktime_label.config(text=cracking, fg="#b39ddb")
         # After checking, update the easter button
         self.setup_easter_button()
+    
     def copy_password(self):
         password = self.password_entry.get()
         root.clipboard_clear()
@@ -269,9 +270,13 @@ class PasswordStrengthApp:
         label = tk.Label(self.eas_window, text="Easter Egg", bg="#23272f", fg="#f5f5f5", font=("Segoe UI", 14))
         label.pack(pady=20)
         body_text = tk.Text(self.eas_window, bg="#2d323b", fg="#f5f5f5", font=("Segoe UI", 10), wrap="word", padx=10, pady=10)
-        body_text.insert(tk.END, "Easter egg codes and  \n\n" 
-        "Thank you for using the Password Strength Checker!" 
-        "\n\n Made with hatred for Tkinter XOXO.")
+        body_text.insert(tk.END, "Easter egg codes  \n\n" 
+        "meinkampf - opens a youtube video \n" 
+        "\n\n bean - opens moxfield \n"
+        "\n\n gremlin - opens FBI\n"
+        "\n\n fong - opens cornhub \n"
+        "\n\n ppshower - opens a special page \n"
+        "\n\n Byenj@m1n - tells you that your password is basic \n")
         body_text.config(state="disabled")
         body_text.pack(fill="both", expand=True, padx=10, pady=10)
         self.eas_window.protocol("WM_DELETE_WINDOW", self.close_easter_window)
