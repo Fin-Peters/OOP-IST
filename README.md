@@ -34,6 +34,8 @@ This project is a graphical password strength checker built with Python and Tkin
 
 
 ## file structure 
-App.py               # Main application code
-passwordList.txt     # List of common weak passwords (one per line)
-README.md            # You're reading this!
+-App.py               # Main application code
+
+-passwordList.txt     # List of common weak passwords (one per line)
+
+-README.md            # You're reading this!
