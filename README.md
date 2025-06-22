@@ -25,6 +25,8 @@ This project is a graphical password strength checker built with Python and Tkin
 2. **Install dependencies** (just Tkinter and Python standard modules):
    - Tkinter usually comes with Python. If not:
      ```bash
+     pip install tk
+     
      sudo apt install python3-tk     # For Linux
      ```
 
