@@ -29,7 +29,7 @@ class PasswordStrengthChecker:
             return "Welcome Back", ["opening most used webpage"]
         if re.search(r"[ ]", password):
             return "Other", ["Password cannot contain spaces"]
-        if password == "Byenj@m1n":
+        if password.strip() == "Byenj@m1n":
             return"Spesch", ["Password is a basic ass bitch"]
         if len(password) == 0:
             return "Other", ["Password cannot be empty"]
